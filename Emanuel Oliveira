@@ -1,0 +1,79 @@
+#include<stdio.h>
+#include<iostream>
+
+int premio[10][7],jugador,juego,punt[7][30],aux,monto[30],f[7];
+
+main()
+{
+	for(int k=0;k<7;k++)
+	{
+		for(int i=9;i<10;i++)
+		{
+			printf("Monto recibido como premio por terminar con %d en el juego %d: $",i+1,k+1); //monto de platita por premio
+			scanf("%d",&premio[i][k]);
+		}
+	}
+	int i=0;
+	do
+	{
+		i++;
+		do
+		{
+		printf("Numero de Jugador: ");  //obtener el jugador seleccionado
+		scanf("%d",&jugador);
+		}
+		while(jugador<0 || jugador>30);
+		if(jugador==0)
+		{
+			break;
+		}
+		do
+		{
+		printf("Numero del juego en el que participo: ");   //obtener el juego seleccionado 
+		scanf("%d",&juego);
+		}
+		while(juego<1 || juego>7);
+		do
+		{
+		printf("Puntaje obtenido por el Jugador %d en el juego %d: ",jugador,juego);  //guardar el puntaje correspondiente
+		scanf("%d",&aux);
+		punt[juego][jugador]=punt[juego][jugador]+aux; //sumar el puntaje
+		if(punt[juego][jugador]<8)
+		{
+			f[juego]++; //mas para el porcentaje de los no calificados
+		}
+		else if(punt[juego][jugador]==9)
+		{
+			monto[jugador]=monto[jugador]+premio[juego][punt[juego][jugador]];
+		}
+		else if(punt[juego][jugador]==10)                                       //las sumas para el monto total que van a cobrar por ronda
+		{
+			monto[jugador]=monto[jugador]+premio[juego][punt[juego][jugador]];
+		}
+		}
+		while(aux<1 || aux>11);
+	}
+	while(true);
+	system("cls");
+	
+	for(int o=0;o<7;o++)
+	{
+		int prom;
+		prom=0;
+		printf("|JUEGO %d|\n",o+1);
+		printf("|Jugador |Puntaje final    |Monto total\n");
+		for(int u=0;u<7;u++)
+		{
+			if(punt[o][u]>8)   //imprimir si califico
+			{
+				printf("|   %d    |%d     |%d\n",u+1,punt[o][u],monto[u]);  //todas las caracteristicas necesarias de los jugadores
+				prom=prom+punt[o][u];    //calcular promedio de las calificaciones juego
+			}
+		}
+		f[o]=(f[o]*100)/30;
+		printf("|Promedio|%d\n",prom); //Promedio obtenido
+		printf("|PNC     |%d\n",f[o]);   //Porcentaje de No Calificados(PNC)
+		system("pause");
+		system("cls");
+	}	
+}
